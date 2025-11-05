@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador Léxico de Go</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="analyzer-container">
+        <div class="analyzer-wrapper">
+            <div class="analyzer-card">
+                <div class="analyzer-header">
+                    <h1 class="analyzer-title">Analizador Léxico de Go</h1>
+                    <p class="analyzer-subtitle">Ingrese código en Go para analizar sus tokens léxicos</p>
+                </div>
+
+                <div class="analyzer-content">
+                    <div class="code-section">
+                        <label class="section-label"> Código Fuente</label>
+                        <textarea id="codeInput" class="code-textarea" placeholder="Escribe tu código en Go aquí..."></textarea>
+                        <div class="button-group">
+                            <button id="analyzeBtn" class="btn-primary">
+                                Analizar
+                            </button>
+                            <button id="exampleBtn" class="btn-secondary">Cargar Ejemplo</button>
+                            <button id="clearBtn" class="btn-secondary">Limpiar</button>
+                            <button id="exportCSVBtn" class="btn-secondary">Exportar CSV</button>
+                            <button id="exportJSONBtn" class="btn-secondary">Exportar JSON</button>
+                        </div>
+                    </div>
+
+                    <div class="stats-section">
+                        <label class="section-label">Estadísticas</label>
+                        <div class="stats-grid">
+                            <div class="stat-card stat-success">
+                                <div class="stat-header">
+                                    <span>Tokens Reconocidos</span>
+                                </div>
+                                <div class="stat-value" id="tokenCount">0</div>
+                            </div>
+                            <div class="stat-card stat-error">
+                                <div class="stat-header">
+                                    <span>Errores Léxicos</span>
+                                </div>
+                                <div class="stat-value" id="errorCount">0</div>
+                            </div>
+                        </div>
+
+                        <div id="errorPanel" class="error-panel" style="display: none;">
+                            <h3 class="error-title">Errores Detectados</h3>
+                            <div class="error-list" id="errorList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tokensSection" class="tokens-section" style="display: none;">
+                    <h2 class="tokens-title">Tabla de Tokens</h2>
+                    <div class="table-container">
+                        <table class="tokens-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Lexema</th>
+                                    <th>Categoría</th>
+                                    <th>Posición (línea:columna)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tokensTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="categories-card">
+                <h3 class="categories-title">Categorías Léxicas Reconocidas (34 tipos)</h3>
+                <div class="categories-grid" id="categoriesGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="tokens.js"></script>
+</body>
+</html>
