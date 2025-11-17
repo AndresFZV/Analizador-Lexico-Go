@@ -22,11 +22,13 @@ export class AutomataIdentificador extends Automata {
         
         // Palabras reservadas de GO (al menos 8 como especifica el proyecto)
         this.palabrasReservadas = new Set([
-            'break', 'case', 'const', 'continue', 'default', 
-            'func', 'if', 'else', 'for', 'return', 'var', 
-            'package', 'import', 'struct', 'interface', 'type',
-            'go', 'defer', 'map', 'chan', 'range', 'select'
+            'break','default','func','interface','select',
+            'case','defer','go','map','struct',
+            'chan','else','goto','package','switch',
+            'const','fallthrough','if','range','type',
+            'continue','for','import','return','var'
         ]);
+
         
         this.longitudMaxima = 15; // Límite de caracteres para identificadores
     }
