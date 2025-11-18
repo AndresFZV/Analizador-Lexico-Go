@@ -63,7 +63,7 @@ export class AutomataDelimitador extends Automata {
             case ',':
                 return 'SEPARADOR';
             case '.':
-            return 'PUNTO';
+            return 'OPERADOR DE ACCESO';
             default:
                 return 'DELIMITADOR';
         }
