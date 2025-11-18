@@ -25,12 +25,17 @@ export class AutomataDelimitador extends Automata {
                 apertura: '{',
                 cierre: '}'
             },
+            corchetes: {
+                apertura: '[',
+                cierre: ']'
+            },
             terminal: ';',
-            separador: ','
+            separador: ',',
+            punto: '.'
         };
 
         // Set de todos los delimitadores válidos
-        this.delimitadoresValidos = new Set(['(', ')', '{', '}', ';', ',']);
+        this.delimitadoresValidos = new Set(['(', ')', '{', '}', ';', ',', '[', ']', '.']);
     }
 
     /**
@@ -49,10 +54,16 @@ export class AutomataDelimitador extends Automata {
                 return 'LLAVE_APERTURA';
             case '}':
                 return 'LLAVE_CIERRE';
+            case '[':
+                return 'CORCHETE_APERTURA';
+            case ']':
+                return 'CORCHETE_CIERRE';
             case ';':
                 return 'TERMINAL';
             case ',':
                 return 'SEPARADOR';
+            case '.':
+            return 'PUNTO';
             default:
                 return 'DELIMITADOR';
         }
