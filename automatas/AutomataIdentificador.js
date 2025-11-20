@@ -65,6 +65,9 @@ export class AutomataIdentificador extends Automata {
 
     /**
      * Reconoce identificadores y palabras reservadas en la entrada
+     * IMPORTANTE: Consume TODO el identificador completo sin importar su longitud.
+     * Si excede 15 caracteres, retorna TODO el lexema como ERROR.
+     * 
      * @param {string} entrada - Cadena de entrada
      * @param {number} posicionInicial - Posición inicial
      * @returns {{exito: boolean, lexema: string, longitud: number, categoria?: string, error?: string}}
@@ -72,7 +75,6 @@ export class AutomataIdentificador extends Automata {
     reconocer(entrada, posicionInicial) {
         let pos = posicionInicial;
         let lexema = '';
-        let estado = 0;
 
         // Estado 0: Esperando primer carácter válido
         if (this.esFinDeEntrada(entrada, pos)) {
@@ -85,35 +87,36 @@ export class AutomataIdentificador extends Automata {
             return this.crearResultadoFallido();
         }
 
-        // Estado 1: Reconociendo identificador
-        estado = 1;
+        // Estado 1: Reconociendo identificador - CONSUMIR TODO EL IDENTIFICADOR
         lexema += primerCaracter;
         pos++;
 
-        // Continuar mientras haya caracteres válidos
+        // Continuar consumiendo TODOS los caracteres válidos del identificador
+        // SIN verificar el límite durante el consumo
         while (!this.esFinDeEntrada(entrada, pos)) {
             const caracterActual = this.caracterEn(entrada, pos);
             
             if (this.esCaracterIdentificadorValido(caracterActual)) {
                 lexema += caracterActual;
                 pos++;
-                
-                // Verificar límite de longitud
-                if (lexema.length > this.longitudMaxima) {
-                    return {
-                        exito: true,
-                        lexema: lexema,
-                        longitud: lexema.length,
-                        categoria: 'ERROR',
-                        error: `Identificador muy largo (máximo ${this.longitudMaxima} caracteres)`
-                    };
-                }
             } else {
+                // Encontramos un carácter que no es parte del identificador
                 break;
             }
         }
 
-        // Determinar si es palabra reservada o identificador
+        // DESPUÉS de consumir todo el identificador, verificar si excede el límite
+        if (lexema.length > this.longitudMaxima) {
+            return {
+                exito: true,
+                lexema: lexema,  // TODO el identificador completo (ej: 29 caracteres)
+                longitud: lexema.length,  // Longitud completa para que el analizador avance correctamente
+                categoria: 'ERROR',
+                error: `Identificador excede el límite de ${this.longitudMaxima} caracteres (longitud: ${lexema.length})`
+            };
+        }
+
+        // Si está dentro del límite, determinar si es palabra reservada o identificador
         const categoria = this.esPalabraReservada(lexema) ? 'PALABRA_RESERVADA' : 'IDENTIFICADOR';
 
         return {
